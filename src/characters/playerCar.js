@@ -1,22 +1,25 @@
 import { Math } from "phaser";
 import Mine from "./mine";
 
-let playerUnitVectors = {
-    left : Phaser.Math.Vector2.ZERO,
-    up : Phaser.Math.Vector2.ZERO,
-    right : Phaser.Math.Vector2.ZERO,
-    down : Phaser.Math.Vector2.ZERO
-}
-
 export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, x, y, name, frame, params, unitDirectionVector) {
         super(scene, x, y, name, frame);
         scene.physics.world.enable(this);
         scene.add.existing(this);
-        //this.lastMineTime = 0;
+        //this.lastMineTime = 0;       
+        this.vectorLeft = new Phaser.Math.Vector2(0, 0);        
+        this.vectorUp = new Phaser.Math.Vector2(0, 0);                       
+        this.vectorRight =  new Phaser.Math.Vector2(0, 0);        
+        this.vectorDown = new Phaser.Math.Vector2(0, 0);        
+        
         this.abilities  = params.abilities || [];     
         this.unitDirectionVector = unitDirectionVector;   
-        this.angle = this.unitDirectionVector.angle() * 360 / Phaser.Math.PI2;        
+        this.angle = this.unitDirectionVector.angle() * 360 / Phaser.Math.PI2;      
+        //this.scene.input.keyboard.on('rightdown', this.playerUnitVectors.right = Phaser.Math.Vector2.RIGHT)      
+        this.buttonLeft = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        this.buttonUp = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        this.buttonRight = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        this.buttonDown = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);        
     }
 
     update() {
@@ -53,43 +56,89 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
         //this.updateAnimation();
     };
 
-    checkPlayerActions(cursors) {
-        for (let currentVector in playerUnitVectors) {
-            //console.log(playerUnitVectors);
-            currentVector = Phaser.Math.Vector2.ZERO;
+    checkPlayerActions(cursors) {                     
+        if (this.buttonLeft.isDown) {
+            this.vectorLeft.set(-1, 0);  
+            console.log("left");
+        }
+        else {
+            this.vectorLeft.set(0, 0);            
         }
         
+        if (this.buttonUp.isDown) {
+            this.vectorUp.set(0, -1);            
+            console.log("Up");
+        }      
+        else {
+            this.vectorUp.set(0, 0);
+        }
+
+        if (this.buttonRight.isDown) {
+            this.vectorRight.set(1, 0);
+            console.log("Right");
+        }
+        else {
+            this.vectorRight.set(0, 0);
+        }
+
+        if (this.buttonDown.isDown) {
+            this.vectorDown.set(0, 1);
+            console.log("Down");
+        }
+        else {
+            this.vectorDown.set(0, 0);
+        }
+
+        console.log(this.vectorLeft);
+        console.log(this.vectorUp);
+        console.log(this.vectorRight);
+        console.log(this.vectorDown);
+        
+        /*if (this.buttonRight.isDown) {
+            let vec = new Phaser.Math.Vector2(1, 0);
+            console.log(vec);
+            console.log(this.playerUnitVectors.right);
+            this.playerUnitVectors.right.set(1, 0);            
+            console.log(vec);
+            console.log(this.playerUnitVectors.right);
+            console.log(this.playerUnitVectors);
+            console.log("Right");
+        }*/
+        //console.log(this.playerUnitVectors);
+
+        
+        //console.log(this.vectorArray);
+        //console.log(this.vectorRight);
+        //console.log(this.playerUnitVectors);        
+        /*
         if (cursors.left.isDown) {
-            console.log(playerUnitVectors);
+            console.log(cursors);
             playerUnitVectors.left = Phaser.Math.Vector2.LEFT;    
-            console.log(playerUnitVectors);
+            //console.log(playerUnitVectors);
             cursors.left.isDown = false;
         }
 
         if (cursors.up.isDown) {
-            console.log(playerUnitVectors);
+            console.log(cursors);
             playerUnitVectors.up = Phaser.Math.Vector2.UP;
-            console.log(playerUnitVectors);
+            //console.log(playerUnitVectors);
             cursors.up.isDown = false;
         }
-
-        if (cursors.right.isDown) {
-            console.log(playerUnitVectors);            
-        }
+        
 
         if (cursors.right.isDown) {            
             playerUnitVectors.right = Phaser.Math.Vector2.RIGHT;
-            console.log(playerUnitVectors);
+            console.log(cursors);
             cursors.right.isDown = false;
-            console.log(playerUnitVectors);
+            //console.log(playerUnitVectors);
         }
-
+        
         if (cursors.down.isDown) {
-            console.log(playerUnitVectors);
+            console.log(cursors);
             playerUnitVectors.down = Phaser.Math.Vector2.DOWN;
-            console.log(playerUnitVectors);
+            //console.log(playerUnitVectors);
             cursors.down.isDown = false;
-        }                
+        } */             
     }
 
     /*updateAnimation() {
