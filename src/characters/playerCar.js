@@ -6,7 +6,9 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, x, y, name, frame, params, unitDirectionVector) {
         super(scene, x, y, name, frame);
         scene.physics.world.enable(this);
-        scene.add.existing(this);                
+        scene.add.existing(this);    
+        this.currentSpeed = 0;              
+        this.acceleration = 100;
 
         this.leftVector = new Vector(-1, 0);
         this.upVector = new Vector(0, -1);
@@ -21,30 +23,28 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
         this.buttonRight = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         this.buttonDown = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);                
 
+        this.gearUp = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);                
+        this.gearDown = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);    
+        this.gearUpIsReadyForSwitch = true;
+        this.gearDownIsReadyForSwitch = true;
+
         this.abilities  = params.abilities || [];                             
     }
 
     update() {
-        const body = this.body;
-        this.body.setVelocity(0);
-        const speed = this.maxSpeed;
-        const cursors = this.cursors;
-
-        let cursorResultVector = this.checkPlayerActions(cursors);
-        //console.log("Cusor result");
-        //console.log(cursorResultVector);
+        const body = this.body;     
+        this.currentSpeed = this.updateSpeed();    
+        let cursorResultVector = this.updateDirection();        
         let crossZCoordinate = cursorResultVector.crossZCoordinate(this.unitDirectionVector);      
-
-        //console.log("Unit direction vector");
-        //console.log(this.unitDirectionVector);
-        this.unitDirectionVector.rotateOnAngleInDegrees(-crossZCoordinate * 5);
-        //console.log("Unit direction vector AFTER ROTATION");
-        //console.log(this.unitDirectionVector);        
-        this.angle = this.unitDirectionVector.angleInDegrees();  
-        body.velocity.x = speed * this.unitDirectionVector.x;
-        body.velocity.y = speed * this.unitDirectionVector.y;
-        //console.log("Angle = " + this.angle);  
-
+        let rotationDirection = -1;
+        if (this.currentSpeed < 0) {
+            rotationDirection = 1;
+        }
+        this.unitDirectionVector.rotateOnAngleInDegrees(rotationDirection * crossZCoordinate * 5);
+        this.angle = this.unitDirectionVector.angleInDegrees();            
+        body.velocity.x = this.currentSpeed * this.unitDirectionVector.x;   
+        body.velocity.y = this.currentSpeed * this.unitDirectionVector.y;
+        
         /*if (this.abilities.includes('mines'))
         {
             if (cursors.space.isDown && this.scene.time.now - this.lastMineTime > 1000) {
@@ -65,32 +65,48 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
             body.setVelocityY(-speed);
         } else if (cursors.down.isDown) {
             body.setVelocityY(speed);
-        }*/
-        // Normalize and scale the velocity so that player can't move faster along a diagonal
-        body.velocity.normalize().scale(speed);
+        }*/        
         //this.updateAnimation();
     };
 
-    checkPlayerActions(cursors) {     
-        let result = new Vector(0, 0);          
-        
-        if (this.buttonLeft.isDown) {
-            result.add(this.leftVector);
-        }        
-        
-        if (this.buttonUp.isDown) {
-            result.add(this.upVector);
-        }      
-
-        if (this.buttonRight.isDown) {
-            result.add(this.rightVector);            
-        }        
-
-        if (this.buttonDown.isDown) {
-            result.add(this.downVector);
-        }   
+    updateDirection() {     
+        let result = new Vector(0, 0); 
+        if (this.currentSpeed != 0) {
+            if (this.buttonLeft.isDown) {
+                result.add(this.leftVector);
+            }        
+            
+            if (this.buttonUp.isDown) {
+                result.add(this.upVector);
+            }      
+    
+            if (this.buttonRight.isDown) {
+                result.add(this.rightVector);            
+            }        
+    
+            if (this.buttonDown.isDown) {
+                result.add(this.downVector);
+            }   
+        }
         
         return result;
+    }
+
+    updateSpeed() {       
+        let newSpeed = this.currentSpeed;        
+        if (this.gearUpIsReadyForSwitch && this.gearUp.isDown && this.currentSpeed < this.maxSpeed) {
+            newSpeed += this.acceleration;
+        }
+
+        this.gearUpIsReadyForSwitch = this.gearUp.isUp;
+
+        if (this.gearDownIsReadyForSwitch && this.gearDown.isDown && this.currentSpeed > this.minSpeed) {
+            newSpeed -= this.acceleration;
+        }
+
+        this.gearDownIsReadyForSwitch = this.gearDown.isUp;
+        
+        return newSpeed;
     }
 
     /*updateAnimation() {
