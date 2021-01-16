@@ -1,25 +1,27 @@
 import { Math } from "phaser";
 import Mine from "./mine";
+import Vector from "../accessoryClasses/vector.js"
 
 export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, x, y, name, frame, params, unitDirectionVector) {
         super(scene, x, y, name, frame);
         scene.physics.world.enable(this);
-        scene.add.existing(this);
-        //this.lastMineTime = 0;       
-        this.vectorLeft = new Phaser.Math.Vector2(0, 0);        
-        this.vectorUp = new Phaser.Math.Vector2(0, 0);                       
-        this.vectorRight =  new Phaser.Math.Vector2(0, 0);        
-        this.vectorDown = new Phaser.Math.Vector2(0, 0);        
+        scene.add.existing(this);                
+
+        this.leftVector = new Vector(-1, 0);
+        this.upVector = new Vector(0, -1);
+        this.rightVector = new Vector(1, 0);
+        this.downVector = new Vector(0, 1);        
         
-        this.abilities  = params.abilities || [];     
         this.unitDirectionVector = unitDirectionVector;   
-        this.angle = this.unitDirectionVector.angle() * 360 / Phaser.Math.PI2;      
-        //this.scene.input.keyboard.on('rightdown', this.playerUnitVectors.right = Phaser.Math.Vector2.RIGHT)      
+        this.angle = this.unitDirectionVector.angleInDegrees();      
+
         this.buttonLeft = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         this.buttonUp = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         this.buttonRight = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         this.buttonDown = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);        
+
+        this.abilities  = params.abilities || [];                             
     }
 
     update() {
@@ -27,7 +29,26 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
         this.body.setVelocity(0);
         const speed = this.maxSpeed;
         const cursors = this.cursors;
-        
+
+        let cursorResultVector = this.checkPlayerActions(cursors);
+        console.log(cursorResultVector);
+        let crossZCoordinate = cursorResultVector.crossZCoordinate(this.unitDirectionVector);
+
+        let rotationDirection = 0;
+        if (crossZCoordinate > 0) {
+            rotationDirection = -1;
+        }
+
+        if (crossZCoordinate < 0) {
+            rotationDirection = 1;
+        }
+
+        console.log(this.unitDirectionVector);
+        this.unitDirectionVector.rotateOnAngleInDegrees(crossZCoordinate * 5);
+        console.log(this.unitDirectionVector);        
+        this.angle = this.unitDirectionVector.angleInDegrees(); 
+        console.log(this.angle);  
+
         /*if (this.abilities.includes('mines'))
         {
             if (cursors.space.isDown && this.scene.time.now - this.lastMineTime > 1000) {
@@ -35,9 +56,7 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
                 this.scene.characterFactory.buildMine(this.body.x, this.body.y);
             }
         }*/
-        //this.body.setAcceleration()        
-
-        this.checkPlayerActions(cursors);
+        //this.body.setAcceleration()    
 
         /*if (cursors.left.isDown) {            
             body.velocity.x -= speed;
@@ -56,89 +75,26 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
         //this.updateAnimation();
     };
 
-    checkPlayerActions(cursors) {                     
+    checkPlayerActions(cursors) {     
+        let result = new Vector(0, 0);          
+        
         if (this.buttonLeft.isDown) {
-            this.vectorLeft.set(-1, 0);  
-            console.log("left");
-        }
-        else {
-            this.vectorLeft.set(0, 0);            
-        }
+            result.add(this.leftVector);
+        }        
         
         if (this.buttonUp.isDown) {
-            this.vectorUp.set(0, -1);            
-            console.log("Up");
+            result.add(this.upVector);
         }      
-        else {
-            this.vectorUp.set(0, 0);
-        }
 
         if (this.buttonRight.isDown) {
-            this.vectorRight.set(1, 0);
-            console.log("Right");
-        }
-        else {
-            this.vectorRight.set(0, 0);
-        }
+            result.add(this.rightVector);            
+        }        
 
         if (this.buttonDown.isDown) {
-            this.vectorDown.set(0, 1);
-            console.log("Down");
-        }
-        else {
-            this.vectorDown.set(0, 0);
-        }
-
-        console.log(this.vectorLeft);
-        console.log(this.vectorUp);
-        console.log(this.vectorRight);
-        console.log(this.vectorDown);
+            result.add(this.downVector);
+        }   
         
-        /*if (this.buttonRight.isDown) {
-            let vec = new Phaser.Math.Vector2(1, 0);
-            console.log(vec);
-            console.log(this.playerUnitVectors.right);
-            this.playerUnitVectors.right.set(1, 0);            
-            console.log(vec);
-            console.log(this.playerUnitVectors.right);
-            console.log(this.playerUnitVectors);
-            console.log("Right");
-        }*/
-        //console.log(this.playerUnitVectors);
-
-        
-        //console.log(this.vectorArray);
-        //console.log(this.vectorRight);
-        //console.log(this.playerUnitVectors);        
-        /*
-        if (cursors.left.isDown) {
-            console.log(cursors);
-            playerUnitVectors.left = Phaser.Math.Vector2.LEFT;    
-            //console.log(playerUnitVectors);
-            cursors.left.isDown = false;
-        }
-
-        if (cursors.up.isDown) {
-            console.log(cursors);
-            playerUnitVectors.up = Phaser.Math.Vector2.UP;
-            //console.log(playerUnitVectors);
-            cursors.up.isDown = false;
-        }
-        
-
-        if (cursors.right.isDown) {            
-            playerUnitVectors.right = Phaser.Math.Vector2.RIGHT;
-            console.log(cursors);
-            cursors.right.isDown = false;
-            //console.log(playerUnitVectors);
-        }
-        
-        if (cursors.down.isDown) {
-            console.log(cursors);
-            playerUnitVectors.down = Phaser.Math.Vector2.DOWN;
-            //console.log(playerUnitVectors);
-            cursors.down.isDown = false;
-        } */             
+        return result;
     }
 
     /*updateAnimation() {
@@ -165,6 +121,5 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
                 const frame = currentAnimation.getLastFrame();
                 this.setTexture(frame.textureKey, frame.textureFrame);
             }
-        }
-    }*/
+        }*/    
 }

@@ -6,6 +6,7 @@ import cyberpunkConfigJson from "../../assets/animations/cyberpunk.json";
 import slimeConfigJson from "../../assets/animations/slime.json";
 import mineConfigJson from '../../assets/animations/mine.json';
 import AnimationLoader from "../utils/animation-loader";
+import Vector from "../accessoryClasses/vector.js";
 
 import Mine from "./mine";
 import SmartSlime from './minerScene/smartSlime';
@@ -77,7 +78,7 @@ export default class CharacterFactory {
     }
 
     buildPlayerCharacter(spriteSheetName, x, y, params = {}) {
-        let unitDirectionVector = new Phaser.Math.Vector2(1, 0);
+        let unitDirectionVector = new Vector(0, -1);
         let character = new PlayerCar(this.scene, x, y, spriteSheetName, 2, params, unitDirectionVector);        
         //let character = new Player(this.scene, x, y, spriteSheetName, 2, params);
         character.maxSpeed = 100;        
