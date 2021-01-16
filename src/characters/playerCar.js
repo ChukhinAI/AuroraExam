@@ -31,23 +31,17 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
         const cursors = this.cursors;
 
         let cursorResultVector = this.checkPlayerActions(cursors);
-        console.log(cursorResultVector);
-        let crossZCoordinate = cursorResultVector.crossZCoordinate(this.unitDirectionVector);
+        //console.log("Cusor result");
+        //console.log(cursorResultVector);
+        let crossZCoordinate = cursorResultVector.crossZCoordinate(this.unitDirectionVector);      
 
-        let rotationDirection = 0;
-        if (crossZCoordinate > 0) {
-            rotationDirection = -1;
-        }
-
-        if (crossZCoordinate < 0) {
-            rotationDirection = 1;
-        }
-
-        console.log(this.unitDirectionVector);
-        this.unitDirectionVector.rotateOnAngleInDegrees(crossZCoordinate * 5);
-        console.log(this.unitDirectionVector);        
-        this.angle = this.unitDirectionVector.angleInDegrees(); 
-        console.log(this.angle);  
+        //console.log("Unit direction vector");
+        //console.log(this.unitDirectionVector);
+        this.unitDirectionVector.rotateOnAngleInDegrees(-crossZCoordinate * 5);
+        //console.log("Unit direction vector AFTER ROTATION");
+        //console.log(this.unitDirectionVector);        
+        this.angle = this.unitDirectionVector.angleInDegrees();         
+        //console.log("Angle = " + this.angle);  
 
         /*if (this.abilities.includes('mines'))
         {
