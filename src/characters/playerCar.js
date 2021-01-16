@@ -19,7 +19,7 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
         this.buttonLeft = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         this.buttonUp = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         this.buttonRight = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        this.buttonDown = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);        
+        this.buttonDown = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);                
 
         this.abilities  = params.abilities || [];                             
     }
@@ -40,7 +40,9 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
         this.unitDirectionVector.rotateOnAngleInDegrees(-crossZCoordinate * 5);
         //console.log("Unit direction vector AFTER ROTATION");
         //console.log(this.unitDirectionVector);        
-        this.angle = this.unitDirectionVector.angleInDegrees();         
+        this.angle = this.unitDirectionVector.angleInDegrees();  
+        body.velocity.x = speed * this.unitDirectionVector.x;
+        body.velocity.y = speed * this.unitDirectionVector.y;
         //console.log("Angle = " + this.angle);  
 
         /*if (this.abilities.includes('mines'))
