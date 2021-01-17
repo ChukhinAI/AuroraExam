@@ -1,4 +1,4 @@
-import { Math } from "phaser";
+//import { PhaserMath } from "phaser";
 import Mine from "./mine";
 import Vector from "../accessoryClasses/vector.js"
 
@@ -6,8 +6,12 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, x, y, name, frame, params, unitDirectionVector) {
         super(scene, x, y, name, frame);
         scene.physics.world.enable(this);
-        scene.add.existing(this);    
-        this.currentSpeed = 0;              
+        scene.add.existing(this);  
+
+        this.setScale(0.15);          
+        this.setCarHalfSizes();
+
+        this.currentSpeed = 0; 
         this.acceleration = 100;
 
         this.leftVector = new Vector(-1, 0);
@@ -31,8 +35,15 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
         this.abilities  = params.abilities || [];                             
     }
 
+    setCarHalfSizes() {
+        let size1 = this.displayWidth;
+        let size2 = this.displayHeight;
+        this.carHalfLength = Math.max(size1, size2) / 2;
+        this.carHalfWidth = Math.min(size1, size2) / 2;        
+    }
+
     update() {
-        const body = this.body;     
+        const body = this.body;             
         this.currentSpeed = this.updateSpeed();    
         let cursorResultVector = this.updateDirection();        
         let crossZCoordinate = cursorResultVector.crossZCoordinate(this.unitDirectionVector);      
@@ -44,7 +55,8 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
         this.angle = this.unitDirectionVector.angleInDegrees();            
         body.velocity.x = this.currentSpeed * this.unitDirectionVector.x;   
         body.velocity.y = this.currentSpeed * this.unitDirectionVector.y;
-        
+
+        this.updateBodyBoundingSizes();
         /*if (this.abilities.includes('mines'))
         {
             if (cursors.space.isDown && this.scene.time.now - this.lastMineTime > 1000) {
@@ -92,6 +104,63 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
         return result;
     }
 
+    updateBodyBoundingSizes() {
+        let vd = this.unitDirectionVector.copy();
+        vd.multiply(this.carHalfLength);  
+        let minus_vd = vd.copy();
+        minus_vd.multiply(-1);
+        
+        let vn = this.unitDirectionVector.getNormalVector();
+        vn.multiply(this.carHalfWidth);        
+        let minus_vn = vn.copy();
+        minus_vn.multiply(-1);
+
+        
+        let c1 = vd.copy();
+        c1.add(vn);
+        
+        let c2 = vd.copy();
+        c2.add(minus_vn);
+
+        let c3 = minus_vd.copy();
+        c3.add(vn);
+
+        let c4 = minus_vd.copy();
+        c4.add(minus_vn);
+
+        let sizes = this.getBoundingBoxWidthAndHeight([c1, c2, c3, c4]);
+        console.log(sizes);
+        this.body.setSize(sizes.width / this.scale, sizes.height / this.scale);
+    }
+
+    getBoundingBoxWidthAndHeight(vectorArray) {
+        let minX = vectorArray[0].x;
+        let maxX = vectorArray[0].x;
+
+        let minY = vectorArray[0].y;
+        let maxY = vectorArray[0].y;
+
+        for (let i = 1; i < vectorArray.length; i++) {
+            if (vectorArray[i].x < minX) {
+                minX = vectorArray[i].x;
+            }
+
+            if (vectorArray[i].x > maxX) {
+                maxX = vectorArray[i].x;
+            }
+
+            if (vectorArray[i].y < minY) {
+                minY = vectorArray[i].y;
+            }
+
+            if (vectorArray[i].y > maxY) {
+                maxY = vectorArray[i].y;
+            }
+        }
+
+        return {width : Math.abs(minX) + Math.abs(maxX),
+                height : Math.abs(minY) + Math.abs(maxY)};
+    }
     updateSpeed() {       
         let newSpeed = this.currentSpeed;        
         if (this.gearUpIsReadyForSwitch && this.gearUp.isDown && this.currentSpeed < this.maxSpeed) {
