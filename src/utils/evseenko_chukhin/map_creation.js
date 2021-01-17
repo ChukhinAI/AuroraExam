@@ -13,7 +13,7 @@ const LEVEL_TO_TILE ={
 }
 
 export function create_map(tile_size, scene) {
-    const MAX_LEAF_SIZE = 20;
+    const MAX_LEAF_SIZE = 80; // 20=original; 40 ok;
     let width = 200;
     let height = 200;
     let leafs = []; // new Array
@@ -32,8 +32,8 @@ export function create_map(tile_size, scene) {
             //console.log(current_leaf);
             if (current_leaf.leftChild == undefined && current_leaf.rightChild == undefined) // если лист ещё не разрезан...
             {
-                // если этот лист слишком велик, или есть вероятность 75%...
-                if (current_leaf.width > MAX_LEAF_SIZE || current_leaf.height > MAX_LEAF_SIZE || Math.random() > 0.25) {
+                // если этот лист слишком велик, или есть вероятность 75%... // 75% -> 25
+                if (current_leaf.width > MAX_LEAF_SIZE || current_leaf.height > MAX_LEAF_SIZE || Math.random() > 0.75) { // 0.25
                     if (current_leaf.split()) // разрезаем лист!
                     {
                         // если мы выполнили разрезание, передаём дочерние листья в Vector, чтобы в дальнейшем можно было в цикле обойти и их
@@ -56,7 +56,8 @@ export function create_map(tile_size, scene) {
         rectangleArray[randomNumber].corner_x + rectangleArray[randomNumber].size_x) - 1) * tile_size;
     let auroraY = (rand(rectangleArray[randomNumber].corner_y,
         rectangleArray[randomNumber].corner_y + rectangleArray[randomNumber].size_y) - 1) * tile_size;*/
-    create_halls(leafs, 1, rectangleArray);
+    //create_halls(leafs, 1, rectangleArray); // original
+    create_halls(leafs, 2, rectangleArray); // хорошо, но хочется еще просторнее
     let map_matrix = fillMap(rectangleArray, width, height);
     scene.map = scene.make.tilemap({tileWidth: tile_size,
         tileHeight: tile_size,
