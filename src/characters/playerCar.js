@@ -8,7 +8,7 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
         scene.physics.world.enable(this);
         scene.add.existing(this);  
 
-        this.setScale(0.15);          
+        this.setScale(0.25);          
         this.setCarHalfSizes();
 
         this.currentSpeed = 0; 

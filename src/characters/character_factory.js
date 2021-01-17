@@ -81,8 +81,8 @@ export default class CharacterFactory {
         let unitDirectionVector = new Vector(0, -1);
         let character = new PlayerCar(this.scene, x, y, spriteSheetName, 2, params, unitDirectionVector);        
         //let character = new Player(this.scene, x, y, spriteSheetName, 2, params);
-        character.maxSpeed = 100;        
-        character.setScale(0.15);
+        character.maxSpeed = 600;   
+        character.minSpeed = -100;        
         character.setCollideWorldBounds(true);
         character.cursors = this.scene.input.keyboard.createCursorKeys();
         //character.animationSets = this.animationLibrary.get('aurora');

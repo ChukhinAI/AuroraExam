@@ -8,12 +8,14 @@ import CellularAutomataLevelBuilder from '../src/utils/automata_generator/level-
 //https://github.com/mikewesthad/phaser-3-tilemap-blog-posts/blob/master/examples/post-1/05-physics/index.js
 Object.assign(Phaser.Physics.Arcade.Sprite.prototype, CharacterMixin);
 
+const body = document.body;
+
 const config = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 600,
-  pixelArt: true,
-  zoom: 1.2,
+  width: body.clientWidth,
+  height: body.clientHeight,
+  pixelArt: true,  
+  //zoom: 1.2,
   scene: MenuScene,
   physics: {
     default: "arcade",

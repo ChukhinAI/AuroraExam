@@ -63,4 +63,13 @@ export default class Vector {
         let angleInRadians = 2 * Math.PI * rotationAngle / 360;
         this.rotateOnAngleInRadians(angleInRadians);
     }
+
+    copy() {
+        return new Vector(this.x, this.y);
+    }
+
+    getNormalVector() {
+        return new Vector(-this.y, this.x);
+    }
+
 }
