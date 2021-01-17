@@ -79,7 +79,7 @@ export default class CharacterFactory {
 
     buildPlayerCharacter(spriteSheetName, x, y, params = {}) {
         let unitDirectionVector = new Vector(0, -1);
-        let character = new PlayerCar(this.scene, x, y, spriteSheetName, 2, params, unitDirectionVector);        
+        let character = new PlayerCar(this.scene, x, y, spriteSheetName, 0, params, unitDirectionVector);        
         //let character = new Player(this.scene, x, y, spriteSheetName, 2, params);
         character.maxSpeed = 600;   
         character.minSpeed = -100;        

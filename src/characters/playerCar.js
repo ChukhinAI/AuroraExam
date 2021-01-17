@@ -39,7 +39,7 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
         let size1 = this.displayWidth;
         let size2 = this.displayHeight;
         this.carHalfLength = Math.max(size1, size2) / 2;
-        this.carHalfWidth = Math.min(size1, size2) / 2;        
+        this.carHalfWidth = Math.min(size1, size2) / 2;   
     }
 
     update() {
@@ -128,8 +128,7 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
         let c4 = minus_vd.copy();
         c4.add(minus_vn);
 
-        let sizes = this.getBoundingBoxWidthAndHeight([c1, c2, c3, c4]);
-        console.log(sizes);
+        let sizes = this.getBoundingBoxWidthAndHeight([c1, c2, c3, c4]);        
         this.body.setSize(sizes.width / this.scale, sizes.height / this.scale);
     }
 
