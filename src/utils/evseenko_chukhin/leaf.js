@@ -16,7 +16,7 @@ export default class Leaf
     rightChild;
     room;
     //halls;
-    MIN_LEAF_SIZE = 6;
+    MIN_LEAF_SIZE = 20;
     constructor(X, Y, Width, Height)
     {
     // инициализация листа
@@ -78,7 +78,7 @@ export default class Leaf
     // часть 3: Создание комнат; Поэтому добавим в класс Leaf эту функцию:
     // добавил менно в класс, тут оставляю пометку об этом
     createRooms(rectangleArray)
-    {
+    {        
         // эта функция генерирует все комнаты и коридоры для этого листа и всех его дочерних листьев.
         if (this.leftChild != undefined || this.rightChild != undefined) // добавил везде this.
         {
@@ -93,17 +93,17 @@ export default class Leaf
             }
         }
         else
-        {
+        {            
             // этот лист готов к созданию комнаты
             // размер комнаты может находиться в промежутке от 3 x 3 тайла до размера листа - 2.
             //roomSize = new Point(Registry.randomNumber(3, width - 2), Registry.randomNumber(3, height - 2)); // что за Point?
-            let size_x = rand(3, this.width - 2);
-            let size_y = rand(3, this.height - 2);
+            let size_x = rand(10, this.width - 2);            
+            let size_y = rand(10, this.height - 2);            
             // располагаем комнату внутри листа, но не помещаем её прямо
             // рядом со стороной листа (иначе комнаты сольются)
             //roomPos = new Point(Registry.randomNumber(1, width - roomSize.x - 1), Registry.randomNumber(1, height - roomSize.y - 1));
             let rectangle_corner_x = rand(1, this.width - size_x - 1);
-            let rectangle_corner_y = rand(1, this.height - size_y - 1);
+            let rectangle_corner_y = rand(1, this.height - size_y - 1);            
             this.room = new Rectangle(this.x + rectangle_corner_x, this.y + rectangle_corner_y, size_x, size_y);
             rectangleArray.push(this.room);
         }

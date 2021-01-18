@@ -3,13 +3,13 @@ import CharacterFactory from "../src/characters/character_factory";
 import Union from "../src/ai/steerings/union"
 import Group from "../src/characters/group";
 import auroraSpriteSheet from '../assets/sprites/characters/aurora.png'
-//import small_car from "../assets/sprites/characters/car_small.png"
 import playerCar from '../assets/sprites/cars/playerCar.png';
 import punkSpriteSheet from '../assets/sprites/characters/punk.png'
 import blueSpriteSheet from '../assets/sprites/characters/blue.png'
 import yellowSpriteSheet from '../assets/sprites/characters/yellow.png'
 import greenSpriteSheet from '../assets/sprites/characters/green.png'
 import slimeSpriteSheet from '../assets/sprites/characters/slime.png'
+import streetTileSetSheet from "../assets/streetTilesets/asphalt.png";
 import Footsteps from "../assets/audio/footstep_ice_crunchy_run_01.wav";
 import EffectsFactory from "../src/utils/effects-factory";
 import tilemapPng from '../assets/tileset/Dungeon_Tileset.png'
@@ -28,8 +28,8 @@ let scene_chukhin_evseenko = new Phaser.Class({
     },
 
     effectsFrameConfig: {frameWidth: 32, frameHeight: 32},
-    characterFrameConfig: {frameWidth: 31, frameHeight: 31},
-    //small_car: {frameWidth: 100, frameHeight: 92},
+    streetTileSetFrameConfig: {frameWidth: 32, frameHeight: 32},
+    characterFrameConfig: {frameWidth: 31, frameHeight: 31},    
     slimeFrameConfig: {frameWidth: 32, frameHeight: 32},
 
     preload: function () {
@@ -39,6 +39,7 @@ let scene_chukhin_evseenko = new Phaser.Class({
         //this.load.spritesheet('aurora', auroraSpriteSheet, this.characterFrameConfig);
         //this.load.spritesheet('aurora', small_car, this.small_car);
         this.load.image('playerCar', playerCar);
+        this.load.spritesheet("streetTileSet", streetTileSetSheet, this.streetTileSetFrameConfig);
         this.load.spritesheet('blue', blueSpriteSheet, this.characterFrameConfig);
         this.load.spritesheet('green', greenSpriteSheet, this.characterFrameConfig);
         this.load.spritesheet('yellow', yellowSpriteSheet, this.characterFrameConfig);

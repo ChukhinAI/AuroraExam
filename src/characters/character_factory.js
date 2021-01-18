@@ -20,8 +20,7 @@ export default class CharacterFactory {
         this.scene = scene;
 
         this.cyberSpritesheets =  ['aurora', 'blue', 'yellow', 'green', 'punk'];
-        this.slimeSpriteSheet = 'slime';
-
+        this.slimeSpriteSheet = 'slime';  
 
         this.mineSpriteSheet = 'mine';
         const slimeStateTable = new StateTable(this);
@@ -84,7 +83,7 @@ export default class CharacterFactory {
         character.maxSpeed = 600;   
         character.minSpeed = -100;        
         character.setCollideWorldBounds(true);
-        character.cursors = this.scene.input.keyboard.createCursorKeys();
+        character.cursors = this.scene.input.keyboard.createCursorKeys();        
         //character.animationSets = this.animationLibrary.get('aurora');
         //todo: not here
         /*character.footstepsMusic = this.scene.sound.add('footsteps', {
