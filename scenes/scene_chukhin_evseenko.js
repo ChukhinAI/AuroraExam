@@ -14,7 +14,9 @@ import streetTileSetSheet from "../assets/streetTilesets/asphalt.png";
 //import Footsteps from "../assets/audio/footstep_ice_crunchy_run_01.wav";
 import engineSound from "../assets/audio/1_z_uk-motora-bolid-formuly-1_v8_cutted_v1.wav"
 import switchGearSound from "../assets/audio/z_uk-motora-bolid-formuly-1_v8_cutted_v2_switch_gear.wav"
-import engineStartSound from "../assets/audio/Sound_18577_engine_start_v1.mp3" //
+import engineStartSound from "../assets/audio/Sound_18577_engine_start_v1.mp3"
+import engineGear1Sound from "../assets/audio/4_engine_1_v2.mp3"
+import engineGear2Sound from "../assets/audio/4_engine_2.mp3"
 
 import EffectsFactory from "../src/utils/effects-factory";
 import tilemapPng from '../assets/tileset/Dungeon_Tileset.png'
@@ -54,6 +56,8 @@ let scene_chukhin_evseenko = new Phaser.Class({
         this.load.audio('engineSound', engineSound);
         this.load.audio('switchGearSound', switchGearSound);
         this.load.audio('engineStartSound', engineStartSound);
+        this.load.audio('engineGear1Sound', engineGear1Sound);
+        this.load.audio('engineGear2Sound', engineGear2Sound);
         //this.effectsFactory = new EffectsFactory(this);
     },
 

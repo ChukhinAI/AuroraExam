@@ -128,6 +128,26 @@ export default class CharacterFactory {
             delay: 0
         });
 
+        character.engineGear1Sound = this.scene.sound.add('engineGear1Sound', {
+            mute: false,
+            volume: 0.2, // 1
+            rate: 0.6,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        });
+
+        character.engineGear2Sound = this.scene.sound.add('engineGear2Sound', {
+            mute: false,
+            volume: 0.2, // 1
+            rate: 0.6,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        });
+
         return character;
 
     }
