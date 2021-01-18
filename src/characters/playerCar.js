@@ -178,6 +178,11 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
 
         if (this.gearDownIsReadyForSwitch && this.gearDown.isDown && this.currentSpeed > this.minSpeed) {
             newSpeed -= this.acceleration;
+            if (!isPlaying)
+            {
+                this.switchGearSound.play();
+                //console.log('gear switched');
+            }
         }
 
         this.gearDownIsReadyForSwitch = this.gearDown.isUp;
