@@ -13,7 +13,7 @@ const LEVEL_TO_TILE ={
 }
 
 export function create_map(tile_size, scene) {
-    const MAX_LEAF_SIZE = 80; // 20=original; 40 ok;
+    const MAX_LEAF_SIZE = 80; 
     let width = 200;
     let height = 200;
     let leafs = []; // new Array
@@ -57,7 +57,7 @@ export function create_map(tile_size, scene) {
     let auroraY = (rand(rectangleArray[randomNumber].corner_y,
         rectangleArray[randomNumber].corner_y + rectangleArray[randomNumber].size_y) - 1) * tile_size;*/
     //create_halls(leafs, 1, rectangleArray); // original
-    create_halls(leafs, 2, rectangleArray); // хорошо, но хочется еще просторнее
+    create_halls(leafs, 2, rectangleArray); 
     let map_matrix = fillMap(rectangleArray, width, height);
     scene.map = scene.make.tilemap({tileWidth: tile_size,
         tileHeight: tile_size,
