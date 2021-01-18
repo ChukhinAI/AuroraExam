@@ -110,7 +110,17 @@ export default class CharacterFactory {
 
         character.switchGearSound = this.scene.sound.add('switchGearSound', {
             mute: false,
-            volume: 1, // 1
+            volume: 0.5, // 1
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+        });
+
+        character.engineStartSound = this.scene.sound.add('engineStartSound', {
+            mute: false,
+            volume: 1.2, // 1
             rate: 1,
             detune: 0,
             seek: 0,

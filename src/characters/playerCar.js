@@ -164,11 +164,26 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
     }
     updateSpeed() {       
         let newSpeed = this.currentSpeed;
-        let isPlaying = this.switchGearSound.isPlaying;
-        if (this.gearUpIsReadyForSwitch && this.gearUp.isDown && this.currentSpeed < this.maxSpeed) {
+        let isGearPlaying = this.switchGearSound.isPlaying;
+        let isEngineStartPlaying = this.engineStartSound.isPlaying;
+
+        console.log("isEngineStartPlaying before if", isEngineStartPlaying);
+        if (this.gearUpIsReadyForSwitch && this.gearUp.isDown && this.currentSpeed < this.maxSpeed)
+        {
             newSpeed += this.acceleration;
-            if (!isPlaying)
+            //if (!isGearPlaying)
+            if(this.currentSpeed == 0 && newSpeed >= this.currentSpeed) // проверка состояния старта
             {
+                //if(this.currentSpeed == 0 && newSpeed >= this.currentSpeed) // проверка состояния старта
+                if (!isEngineStartPlaying)
+                {
+                    this.engineStartSound.play();
+                    console.log("isEngineStartPlaying after .play()", isEngineStartPlaying);
+                }
+            }
+            if (!isGearPlaying && !isEngineStartPlaying && this.currentSpeed >= this.acceleration)
+            {
+                console.log("isEngineStartPlaying in switchGear if", isEngineStartPlaying);
                 this.switchGearSound.play();
                 //console.log('gear switched');
             }
@@ -178,10 +193,14 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
 
         if (this.gearDownIsReadyForSwitch && this.gearDown.isDown && this.currentSpeed > this.minSpeed) {
             newSpeed -= this.acceleration;
-            if (!isPlaying)
+            if (!isGearPlaying)
             {
                 this.switchGearSound.play();
                 //console.log('gear switched');
+                if (newSpeed == 0)
+                {
+
+                }
             }
         }
 
