@@ -16,7 +16,7 @@ import tilemapPng from '../assets/tileset/Dungeon_Tileset.png'
 import {create_map} from "../src/utils/evseenko_chukhin/map_creation";
 import CellularAutomataMapGenerator from '../src/utils/automata_generator/map-generator';
 import CellularAutomataLevelBuilder from '../src/utils/automata_generator/level-builder';
-import { TILES } from '../src/utils/automata_generator/tiles';
+import { TILES } from '../src/utils/automata_generator/tiles'; 
 
 let scene_chukhin_evseenko = new Phaser.Class({
 
