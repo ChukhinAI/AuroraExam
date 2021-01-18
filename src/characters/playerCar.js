@@ -86,6 +86,8 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
         if (this.currentSpeed != 0) {
             if (this.buttonLeft.isDown) {
                 result.add(this.leftVector);
+                //this.engineSound.resume();
+                //this.engineSound.play(); // work;
             }        
             
             if (this.buttonUp.isDown) {
@@ -161,9 +163,15 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
                 height : Math.abs(minY) + Math.abs(maxY)};
     }
     updateSpeed() {       
-        let newSpeed = this.currentSpeed;        
+        let newSpeed = this.currentSpeed;
+        let isPlaying = this.switchGearSound.isPlaying;
         if (this.gearUpIsReadyForSwitch && this.gearUp.isDown && this.currentSpeed < this.maxSpeed) {
             newSpeed += this.acceleration;
+            if (!isPlaying)
+            {
+                this.switchGearSound.play();
+                //console.log('gear switched');
+            }
         }
 
         this.gearUpIsReadyForSwitch = this.gearUp.isUp;

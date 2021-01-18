@@ -98,6 +98,25 @@ export default class CharacterFactory {
         //todo uncomment at your won risk - these footsteps will get you insane
         // character.footstepsMusic.play();
 
+        character.engineSound = this.scene.sound.add('engineSound', {
+            mute: false,
+            volume: 0.5, // 1
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        });
+
+        character.switchGearSound = this.scene.sound.add('switchGearSound', {
+            mute: false,
+            volume: 1, // 1
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+        });
 
         return character;
 

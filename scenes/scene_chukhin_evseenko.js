@@ -10,13 +10,17 @@ import yellowSpriteSheet from '../assets/sprites/characters/yellow.png'
 import greenSpriteSheet from '../assets/sprites/characters/green.png'
 import slimeSpriteSheet from '../assets/sprites/characters/slime.png'
 import streetTileSetSheet from "../assets/streetTilesets/asphalt.png";
-import Footsteps from "../assets/audio/footstep_ice_crunchy_run_01.wav";
+
+//import Footsteps from "../assets/audio/footstep_ice_crunchy_run_01.wav";
+import engineSound from "../assets/audio/1_z_uk-motora-bolid-formuly-1_v8_cutted_v1.wav"
+import switchGearSound from "../assets/audio/z_uk-motora-bolid-formuly-1_v8_cutted_v2_switch_gear.wav"
+
 import EffectsFactory from "../src/utils/effects-factory";
 import tilemapPng from '../assets/tileset/Dungeon_Tileset.png'
 import {create_map} from "../src/utils/evseenko_chukhin/map_creation";
 import CellularAutomataMapGenerator from '../src/utils/automata_generator/map-generator';
 import CellularAutomataLevelBuilder from '../src/utils/automata_generator/level-builder';
-import { TILES } from '../src/utils/automata_generator/tiles'; 
+import { TILES } from '../src/utils/automata_generator/tiles';
 
 let scene_chukhin_evseenko = new Phaser.Class({
 
@@ -45,7 +49,9 @@ let scene_chukhin_evseenko = new Phaser.Class({
         this.load.spritesheet('yellow', yellowSpriteSheet, this.characterFrameConfig);
         this.load.spritesheet('punk', punkSpriteSheet, this.characterFrameConfig);
         this.load.spritesheet('slime', slimeSpriteSheet, this.slimeFrameConfig);
-        this.load.audio('footsteps', Footsteps);
+        //this.load.audio('footsteps', Footsteps);
+        this.load.audio('engineSound', engineSound);
+        this.load.audio('switchGearSound', switchGearSound);
         //this.effectsFactory = new EffectsFactory(this);
     },
 
