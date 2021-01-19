@@ -51,24 +51,33 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
 
         //this.engineGear1Sound.play();
         //this.engineGear1Sound.pause();
-        if (!this.engineGear1Sound.isPlaying) // вооот так хорошо
+        if (!this.engineGear1Sound.isPlaying) // вооот так норм
         {
             this.engineGear1Sound.play();
+            this.engineGear1Sound.pause();
         }
         else this.engineGear1Sound.pause();
 
-        if (!this.engineGear2Sound.isPlaying) // вооот так хорошо
+        if (!this.engineGear2Sound.isPlaying) // вооот так норм
         {
             this.engineGear2Sound.play();
+            this.engineGear2Sound.pause();
         }
         else this.engineGear2Sound.pause();
+
+        if (!this.engineGear3Sound.isPlaying) // вооот так хорошо
+        {
+            this.engineGear3Sound.play();
+            this.engineGear3Sound.pause();
+        }
+        else this.engineGear3Sound.pause();
 
         //this.engineGear2Sound.pause();
         //this.currentSpeed = this.updateSpeed(); // works
         //this.currentSpeed = this.updateSpeed(gearCount);
         this.currentSpeed = this.updateSpeed();
 
-        console.log("gearCount = " + this.gearCount);
+        //console.log("gearCount = " + this.gearCount);
 
         let cursorResultVector = this.updateDirection();        
         let crossZCoordinate = cursorResultVector.crossZCoordinate(this.unitDirectionVector);      
@@ -219,6 +228,12 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
                 engineSound.resume();
                 break;
 
+            case 3:
+                //engineSound.stop();
+                engineSound = this.engineGear3Sound;
+                engineSound.resume();
+                break;
+
             default:
                 //this.game.sound.stopAll();  // проверить сработает ли 1 - no
                 //this.scene.sound.stopAll(); // проверить сработает ли 2 - yes
@@ -276,7 +291,7 @@ export default class PlayerCar extends Phaser.Physics.Arcade.Sprite{
             //engineSound.resume();
         }
         this.gearCount = newGearCount;
-        console.log("gearCount in end of update = ", this.gearCount);
+        //console.log("gearCount in end of update = ", this.gearCount);
         return newSpeed;
         //return [newSpeed, gearCount];
     }
